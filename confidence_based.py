@@ -17,7 +17,7 @@ parser.add_argument('-c', '--attacker_knowledge', type=float, default=0.5, help=
 parser.add_argument('-n', '--number_of_target_classes', type=int, default=0, help='Limit the MI attack to limited a number of classes for efficiency!')
 parser.add_argument('-i', '--imagenet_path', type=str, default='../imagenet/', help='Path to the imagenet dataset if the attack is on Imagenet.')
 parser.add_argument('--save_confidence_histograms', default=False, help='Save confidence histogram of each class.', action='store_true')
-parser.add_argument('--show_separate_results', default=True, help='Show results for correctly classified and misclassified samples, separately.', action='store_true')
+parser.add_argument('--show_separate_results', default=False, help='Show results for correctly classified and misclassified samples, separately.', action='store_true')
 parser.add_argument('--verbose', default=True, help='Print full details.', action='store_true')
 args = parser.parse_args()
 

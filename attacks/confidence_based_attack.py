@@ -10,11 +10,12 @@ import numpy as np
 from sklearn.metrics import f1_score, precision_score, recall_score, balanced_accuracy_score, accuracy_score
 from matplotlib import pyplot as plt
 from matplotlib import rcParams
-from utils import average_over_positive_values, average_over_positive_values_of_2d_array, false_alarm_rate
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from xgboost import XGBClassifier
 from sklearn.model_selection import RepeatedStratifiedKFold
+
+from MI_Attack.utils import average_over_positive_values, average_over_positive_values_of_2d_array, false_alarm_rate
 
 rcParams.update({'font.size': 16})
 plt.rc('pdf', fonttype=42)
@@ -206,7 +207,7 @@ def conf_based_attack(dataset, attack_classifier, sampling, what_portion_of_samp
             temp2 = class_no_x[class_no_x_correctly_labeled]
             bins = np.arange(101) / 100
             plt.style.use('seaborn-deep')
-            n, bins, patches = plt.hist([temp[:, j], temp2[:, j]], bins, normed=1, alpha=1, label=['Train samples', 'Test samples'])
+            n, bins, patches = plt.hist([temp[:, j], temp2[:, j]], bins, density=True, alpha=1, label=['Train samples', 'Test samples'])
             plt.xlabel('Model Confidence')
             plt.ylabel('Probability (%)')
             plt.legend(loc='upper left')
@@ -401,7 +402,7 @@ def conf_based_attack(dataset, attack_classifier, sampling, what_portion_of_samp
 
             # MI attack accuracy on all data
             if attack_classifier == "NN":
-                y_pred = attack_model.predict_classes(MI_x_test)
+                y_pred = (attack_model.predict(MI_x_test) > 0.5).astype("int32")
             else:
                 y_pred = attack_model.predict(MI_x_test)
             MI_attack_per_class[j] = balanced_accuracy_score(MI_y_test, y_pred)
@@ -417,7 +418,7 @@ def conf_based_attack(dataset, attack_classifier, sampling, what_portion_of_samp
                     temp_x = MI_x_test[MI_correctly_labeled_indexes]
                     temp_y = MI_y_test[MI_correctly_labeled_indexes]
                     if attack_classifier == "NN":
-                        y_pred = attack_model.predict_classes(temp_x)
+                        y_pred = (attack_model.predict(temp_x) > 0.5).astype("int32")
                     else:
                         y_pred = attack_model.predict(temp_x)
                     MI_attack_per_class_correctly_labeled[j] = balanced_accuracy_score(temp_y, y_pred)
@@ -432,7 +433,7 @@ def conf_based_attack(dataset, attack_classifier, sampling, what_portion_of_samp
                     temp_x = MI_x_test[MI_incorrectly_labeled_indexes]
                     temp_y = MI_y_test[MI_incorrectly_labeled_indexes]
                     if attack_classifier == "NN":
-                        y_pred = attack_model.predict_classes(temp_x)
+                        y_pred = (attack_model.predict(temp_x) > 0.5).astype("int32")
                     else:
                         y_pred = attack_model.predict(temp_x)
                     MI_attack_per_class_incorrectly_labeled[j] = balanced_accuracy_score(temp_y, y_pred)

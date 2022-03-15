@@ -333,7 +333,7 @@ def conf_based_attack_imagenet(dataset, attack_classifier, sampling, what_portio
 
         # MI attack accuracy on all data
         if attack_classifier == "NN":
-            y_pred = attack_model.predict_classes(MI_x_test)
+            y_pred = (attack_model.predict(MI_x_test) > 0.5).astype("int32")
         else:
             y_pred = attack_model.predict(MI_x_test)
         MI_attack_per_class[j] = balanced_accuracy_score(MI_y_test, y_pred)
@@ -357,7 +357,7 @@ def conf_based_attack_imagenet(dataset, attack_classifier, sampling, what_portio
                 temp_x = MI_x_test[MI_correctly_labeled_indexes]
                 temp_y = MI_y_test[MI_correctly_labeled_indexes]
                 if attack_classifier == "NN":
-                    y_pred = attack_model.predict_classes(temp_x)
+                    y_pred = (attack_model.predict(temp_x) > 0.5).astype("int32")
                 else:
                     y_pred = attack_model.predict(temp_x)
                 MI_attack_per_class_correctly_labeled[j] = balanced_accuracy_score(temp_y, y_pred)
@@ -374,7 +374,7 @@ def conf_based_attack_imagenet(dataset, attack_classifier, sampling, what_portio
                     temp_x = MI_x_test[MI_incorrectly_labeled_indexes]
                     temp_y = MI_y_test[MI_incorrectly_labeled_indexes]
                     if attack_classifier == "NN":
-                        y_pred = attack_model.predict_classes(temp_x)
+                        y_pred = (attack_model.predict(temp_x) > 0.5).astype("int32")
                     else:
                         y_pred = attack_model.predict(temp_x)
                     MI_attack_per_class_incorrectly_labeled[j] = balanced_accuracy_score(temp_y, y_pred)
@@ -509,7 +509,7 @@ def conf_based_attack_imagenet(dataset, attack_classifier, sampling, what_portio
         #             print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
         #
         #     if attack_classifier == "NN":
-        #         y_pred = attack_model.predict_classes(cor_MI_x_test)
+        #         y_pred = (attack_model.predict(cor_MI_x_test) > 0.5).astype("int32")
         #     else:
         #         y_pred = attack_model.predict(cor_MI_x_test)
         #

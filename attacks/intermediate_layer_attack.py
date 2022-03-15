@@ -371,7 +371,7 @@ def intermediate_layer_attack(dataset, intermediate_layer, attack_classifier, sa
 
             # MI attack accuracy on all data
             if attack_classifier == "NN":
-                y_pred = attack_model.predict_classes(MI_x_test)
+                y_pred = attack_model.predict(MI_x_test)
             else:
                 y_pred = attack_model.predict(MI_x_test)
             if y_pred.shape[0] > 0:
@@ -387,7 +387,7 @@ def intermediate_layer_attack(dataset, intermediate_layer, attack_classifier, sa
                 temp_x = MI_x_test[MI_correctly_labeled_indexes]
                 temp_y = MI_y_test[MI_correctly_labeled_indexes]
                 if attack_classifier == "NN":
-                    y_pred = attack_model.predict_classes(temp_x)
+                    y_pred = (attack_model.predict(temp_x) > 0.5).astype("int32")
                 else:
                     y_pred = attack_model.predict(temp_x)
                 MI_attack_per_class_correctly_labeled[j] = balanced_accuracy_score(temp_y, y_pred)
@@ -402,7 +402,7 @@ def intermediate_layer_attack(dataset, intermediate_layer, attack_classifier, sa
                 temp_x = MI_x_test[MI_incorrectly_labeled_indexes]
                 temp_y = MI_y_test[MI_incorrectly_labeled_indexes]
                 if attack_classifier == "NN":
-                    y_pred = attack_model.predict_classes(temp_x)
+                    y_pred = (attack_model.predict(temp_x) > 0.5).astype("int32")
                 else:
                     y_pred = attack_model.predict(temp_x)
                 MI_attack_per_class_incorrectly_labeled[j] = balanced_accuracy_score(temp_y, y_pred)
@@ -484,8 +484,8 @@ def intermediate_layer_attack(dataset, intermediate_layer, attack_classifier, sa
                     print("Best: %f using %s" % (grid_result.best_score_, grid_result.best_params_))
 
             if attack_classifier == "NN":
-                y_pred = attack_model.predict_classes(cor_MI_x_test)
-                y_pred2 = attack_model.predict_classes(cor_MI_x_train)
+                y_pred = (attack_model.predict(cor_MI_x_test) > 0.5).astype("int32")
+                y_pred2 = (attack_model.predict(cor_MI_x_train) > 0.5).astype("int32")
             else:
                 y_pred = attack_model.predict(cor_MI_x_test)
                 y_pred2 = attack_model.predict(cor_MI_x_train)
@@ -564,8 +564,8 @@ def intermediate_layer_attack(dataset, intermediate_layer, attack_classifier, sa
 
 
             if attack_classifier == "NN":
-                y_pred = attack_model.predict_classes(incor_MI_x_test)
-                y_pred2 = attack_model.predict_classes(incor_MI_x_train)
+                y_pred = (attack_model.predict(incor_MI_x_test) > 0.5).astype("int32")
+                y_pred2 = (attack_model.predict(incor_MI_x_train) > 0.5).astype("int32")
             else:
                 y_pred = attack_model.predict(incor_MI_x_test)
                 y_pred2 = attack_model.predict(incor_MI_x_train)
