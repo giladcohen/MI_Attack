@@ -24,7 +24,7 @@ def reload_session(model_name):
 
 
 def gradient_based_attack_wrt_x(model, input, trg, num_classes):
-    target = keras.utils.to_categorical(trg, num_classes)
+    target = keras.utils.np_utils.to_categorical(trg, num_classes)
     loss = K.categorical_crossentropy(target, model.output)
     # loss = K.sum(K.square(model.output - target))
     gradients = K.gradients(loss, model.input)[0]
@@ -35,7 +35,7 @@ def gradient_based_attack_wrt_x(model, input, trg, num_classes):
     return return_norm_metrics(weight_grad)
 
 def gradient_based_attack_wrt_x_batch(model, inputs, trg, num_classes):
-    target = keras.utils.to_categorical(trg, num_classes)
+    target = keras.utils.np_utils.to_categorical(trg, num_classes)
     loss = K.categorical_crossentropy(target, model.output)
     # loss = K.sum(K.square(model.output - target))
     gradients = K.gradients(loss, model.input)[0]
@@ -52,7 +52,7 @@ def gradient_based_attack_wrt_x_batch(model, inputs, trg, num_classes):
 
 
 def gradient_based_attack_wrt_w(model, input, trg, num_classes):
-    target = keras.utils.to_categorical(trg, num_classes)
+    target = keras.utils.np_utils.to_categorical(trg, num_classes)
     loss = K.categorical_crossentropy(target, model.output)
     grads = K.gradients(loss, model.trainable_weights)
     fn = K.function([model.input], grads)
@@ -62,7 +62,7 @@ def gradient_based_attack_wrt_w(model, input, trg, num_classes):
 
 
 def gradient_based_attack_wrt_w_batch(model, inputs, trg, num_classes):
-    target = keras.utils.to_categorical(trg, num_classes)
+    target = keras.utils.np_utils.to_categorical(trg, num_classes)
     output = target.reshape((1, num_classes))
     """ Gets gradient of model for given inputs and outputs for all weights"""
     # from: https://stackoverflow.com/questions/51140950/how-to-obtain-the-gradients-in-keras

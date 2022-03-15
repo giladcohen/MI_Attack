@@ -1,19 +1,24 @@
 import argparse
 import os
+import sys
+
+sys.path.insert(0, ".")
+sys.path.insert(0, "./MI_Attack")
+
 from attacks.confidence_based_attack import conf_based_attack
 from attacks.confidence_based_attack_imagenet import conf_based_attack_imagenet
 
 parser = argparse.ArgumentParser(description='MI attack besed on confidence values.')
 parser.add_argument('-d', '--dataset', type=str, default='cifar10', choices=['mnist', 'cifar10', 'cifar100', 'imagenet'], help='Indicate dataset and target model. If you trained your own target model, the model choice will be overwritten')
-parser.add_argument('-m', '--model_path', type=str, default='keras_models/cifar10/alexnet.h5', help='Indicate the path to the target model. If you used the train_target_model.py to train the model, leave this field to the default value.')
+parser.add_argument('-m', '--model_path', type=str, default='/data/models/keras_models/cifar10/alexnet.h5', help='Indicate the path to the target model. If you used the train_target_model.py to train the model, leave this field to the default value.')
 parser.add_argument('-a', '--attack_model', type=str, default='NN', choices=['NN', 'RF', 'XGBoost'], help='MI Attack model (default is NN).')
 parser.add_argument('-s', '--sampling', type=str, default='none', choices=['none', 'undersampling', 'oversampling'], help='Indicate sampling. Useful for highly imbalaned cases.')
-parser.add_argument('-c', '--attacker_knowledge', type=float, default=0.8, help='The portion of samples available to the attacker. Default is 0.8.')
+parser.add_argument('-c', '--attacker_knowledge', type=float, default=0.5, help='The portion of samples available to the attacker. Default is 0.8.')
 parser.add_argument('-n', '--number_of_target_classes', type=int, default=0, help='Limit the MI attack to limited a number of classes for efficiency!')
 parser.add_argument('-i', '--imagenet_path', type=str, default='../imagenet/', help='Path to the imagenet dataset if the attack is on Imagenet.')
 parser.add_argument('--save_confidence_histograms', default=False, help='Save confidence histogram of each class.', action='store_true')
-parser.add_argument('--show_separate_results', default=False, help='Show results for correctly classified and misclassified samples, separately.', action='store_true')
-parser.add_argument('--verbose', default=False, help='Print full details.', action='store_true')
+parser.add_argument('--show_separate_results', default=True, help='Show results for correctly classified and misclassified samples, separately.', action='store_true')
+parser.add_argument('--verbose', default=True, help='Print full details.', action='store_true')
 args = parser.parse_args()
 
 if __name__ == '__main__':

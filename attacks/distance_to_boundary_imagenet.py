@@ -21,7 +21,7 @@ def reload_session(model_name):
 #Return the confidence difference between closet maximum and the current x
 #It is untargeted FGSM, so trg refer to the class of the original input
 def dist_to_boundary(input, model, trg, eps_step=0.001, eps=0.1, fgsm_max_steps=3000, norm=np.inf, boundary_steps=500, num_classes=1000):
-    target = keras.utils.to_categorical(trg, num_classes)
+    target = keras.utils.np_utils.to_categorical(trg, num_classes)
     loss = K.sum(K.square(model.output - target))
     gradients = K.gradients(loss, model.input)[0]
     fn = K.function([model.input], [gradients])

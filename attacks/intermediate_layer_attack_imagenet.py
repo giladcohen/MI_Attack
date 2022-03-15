@@ -143,8 +143,8 @@ def intermediate_layer_attack_imagenet(dataset, intermediate_layer, attack_class
 
         labels_train = y_train
         labels_test = y_test
-        y_train = keras.utils.to_categorical(y_train, num_classes)
-        y_test = keras.utils.to_categorical(y_test, num_classes)
+        y_train = keras.utils.np_utils.to_categorical(y_train, num_classes)
+        y_test = keras.utils.np_utils.to_categorical(y_test, num_classes)
 
         conf_train[j] = np.average(confidence_train[:, keras_class_id])
         conf_train_std[j] = np.std(confidence_train[:, keras_class_id])
