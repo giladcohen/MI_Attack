@@ -3,11 +3,9 @@ import keras
 from keras import backend as K
 import os
 import numpy as np
-from scipy.stats import norm, kurtosis, skew
-import pdb
-from utils import average_over_positive_values, average_over_gradient_metrics, wigthed_average, load_Data_with_imagenet_id, wigthed_average_over_gradient_metrics
+from scipy.stats import kurtosis, skew
+from utils import average_over_gradient_metrics, load_Data_with_imagenet_id, wigthed_average_over_gradient_metrics
 from pandas.core.common import flatten
-from keras.models import model_from_config
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}
 progress_print_period = 20

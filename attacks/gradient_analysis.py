@@ -2,12 +2,11 @@ from __future__ import print_function
 import tensorflow as tf
 import keras
 from keras.datasets import mnist
-from keras import backend as K
 from keras.datasets import cifar10, cifar100
 import os
 import numpy as np
-from scipy.stats import norm, kurtosis, skew
-from utils import average_over_gradient_metrics, wigthed_average, wigthed_average_over_gradient_metrics
+from scipy.stats import kurtosis, skew
+from utils import average_over_gradient_metrics, wigthed_average_over_gradient_metrics
 from pandas.core.common import flatten
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}

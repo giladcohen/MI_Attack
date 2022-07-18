@@ -6,7 +6,7 @@ import numpy as np
 from sklearn.metrics import f1_score, precision_score, recall_score, balanced_accuracy_score, accuracy_score
 from matplotlib import pyplot as plt
 from matplotlib import rcParams
-from utils import average_over_positive_values, average_over_positive_values_of_2d_array, wigthed_average, load_Data_with_imagenet_id, false_alarm_rate
+from utils import average_over_positive_values, average_over_positive_values_of_2d_array, load_Data_with_imagenet_id, false_alarm_rate
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from xgboost import XGBClassifier
